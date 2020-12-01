@@ -35,11 +35,14 @@ public final class Generator implements Ast.Visitor<Void> {
         newline(++indent);
         writer.print("public static void main(String[] args) {");
         ++indent;
+        boolean has_statements = ast.getStatements().size() > 0;
         for (Ast.Statement statement : ast.getStatements()) {
             newline(indent);
             visit(statement);
         }
-        newline(--indent);
+        --indent;
+        if (has_statements)
+            newline(indent);
         writer.print("}");
         newline(--indent);
         newline(0);
@@ -107,11 +110,14 @@ public final class Generator implements Ast.Visitor<Void> {
         visit(ast.getCondition());
         writer.print(") {");
         ++indent;
+        boolean has_statements = ast.getStatements().size() > 0;
         for (Ast.Statement statement : ast.getStatements()) {
             newline(indent);
             visit(statement);
         }
-        newline(--indent);
+        --indent;
+        if (has_statements)
+            newline(indent);
         writer.print("}");
         return null;
     }
